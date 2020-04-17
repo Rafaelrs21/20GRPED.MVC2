@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace _20GRPED.MVC2.A02.Domain.Model.Models 
+namespace _20GRPED.MVC2.A02.Domain.Model.Entities 
 { 
-    public class LivroModel
+    public class LivroEntity
     {
         public int Id { get; set; }
         public string Nome { get; set; }

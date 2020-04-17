@@ -1,4 +1,4 @@
-﻿using _20GRPED.MVC2.A02.Domain.Model.Models;
+﻿using _20GRPED.MVC2.A02.Domain.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace _20GRPED.MVC2.A02.Data.Context
@@ -10,6 +10,6 @@ namespace _20GRPED.MVC2.A02.Data.Context
         {
         }
 
-        public DbSet<LivroModel> Livros { get; set; }
+        public DbSet<LivroEntity> Livros { get; set; }
     }
 }

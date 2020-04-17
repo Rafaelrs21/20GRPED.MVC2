@@ -19,7 +19,7 @@ namespace _20GRPED.MVC2.A02.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("_20GRPED.MVC2.A02.Domain.Model.Models.LivroModel", b =>
+            modelBuilder.Entity("_20GRPED.MVC2.A02.Domain.Model.Entities.LivroEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

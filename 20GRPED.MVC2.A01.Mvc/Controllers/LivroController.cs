@@ -1,8 +1,8 @@
 ﻿using _20GRPED.MVC2.A02.Domain.Model.Interfaces.Services;
-using _20GRPED.MVC2.A02.Domain.Model.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using _20GRPED.MVC2.A02.Domain.Model.Entities;
 
 namespace _20GRPED.MVC1.A15.Mvc.Controllers
 {
@@ -49,14 +49,14 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Isbn,Lancamento")] LivroModel livroModel)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Isbn,Lancamento")] LivroEntity livroEntity)
         {
             if (ModelState.IsValid)
             {
-                await _livroService.InsertAsync(livroModel);
+                await _livroService.InsertAsync(livroEntity);
                 return RedirectToAction(nameof(Index));
             }
-            return View(livroModel);
+            return View(livroEntity);
         }
 
         // GET: Livro/Edit/5
@@ -80,9 +80,9 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Isbn,Lancamento")] LivroModel livroModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Isbn,Lancamento")] LivroEntity livroEntity)
         {
-            if (id != livroModel.Id)
+            if (id != livroEntity.Id)
             {
                 return NotFound();
             }
@@ -91,7 +91,7 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
             {
                 try
                 {
-                    await _livroService.UpdateAsync(livroModel);
+                    await _livroService.UpdateAsync(livroEntity);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -106,7 +106,7 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(livroModel);
+            return View(livroEntity);
         }
 
         // GET: Livro/Delete/5

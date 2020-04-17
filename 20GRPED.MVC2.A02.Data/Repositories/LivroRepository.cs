@@ -1,9 +1,9 @@
 ﻿using _20GRPED.MVC2.A02.Data.Context;
 using _20GRPED.MVC2.A02.Domain.Model.Interfaces.Repositories;
-using _20GRPED.MVC2.A02.Domain.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _20GRPED.MVC2.A02.Domain.Model.Entities;
 
 namespace _20GRPED.MVC2.A02.Data.Repositories
 {
@@ -24,25 +24,25 @@ namespace _20GRPED.MVC2.A02.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<LivroModel>> GetAllAsync()
+        public async Task<IEnumerable<LivroEntity>> GetAllAsync()
         {
             return await _context.Livros.ToListAsync();
         }
 
-        public async Task<LivroModel> GetByIdAsync(int id)
+        public async Task<LivroEntity> GetByIdAsync(int id)
         {
             return await _context.Livros.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task InsertAsync(LivroModel updatedModel)
+        public async Task InsertAsync(LivroEntity updatedEntity)
         {
-            _context.Add(updatedModel);
+            _context.Add(updatedEntity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(LivroModel insertedModel)
+        public async Task UpdateAsync(LivroEntity insertedEntity)
         {
-            _context.Update(insertedModel);
+            _context.Update(insertedEntity);
             await _context.SaveChangesAsync();
         }
     }
