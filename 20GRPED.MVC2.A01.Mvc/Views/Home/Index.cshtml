@@ -2,6 +2,63 @@
     ViewData["Title"] = "Home Page";
 }
 
+<h1>A02 CRUD Em Camadas</h1>
+
+<img src="images/DiagramaEmCamadasRabiscado.png" alt="Diagrama em camadas rabiscado" />
+
+<div class="col-md-6">
+    <h2 class="display-4">Etapas:</h2>
+    <p>Considerando que o presentation já está criado, seguem as instruções a seguir.</p>
+    <p>Criar Solution Folders: 01 - Presentation, 02 - Domain, 03 - Infrastructure, 04 - Crosscutting</p>
+    <ul>
+        <li>01 - Presentation</li>
+        <li>02 - Domain</li>
+        <li>03 - Infrastructure</li>
+        <li>04 - Crosscutting</li>
+    </ul>
+    <p>Criar projetos:</p>
+    <ul>
+        <li>Domain.Model (02 - Domain)</li>
+        <li>Domain.Service (02 - Domain)</li>
+        <li>Data (03 - Infrastructure)</li>
+        <li>InversionOfControl (04 - Crosscutting)</li>
+    </ul>
+    <p>Criar pastas e classes:</p>
+    <ul>
+        <li>Domain.Model.Interfaces.Repositores.I[Entidade]Repository.cs</li>
+        <li>Domain.Model.Interfaces.Services.I[Entidade]Service.cs</li>
+        <li>Domain.Model.Models.[Entidade].cs (ou [Entidade]Model.cs)</li>
+        <li>Domain.Service.Services.[Entidade]Service.cs</li>
+        <li>Domain.Data.Repositories.[Entidade]Repository.cs</li>
+        <li>Domain.Data.Context.[Name]Context.cs</li>
+        <li>InversionOfControl.DependencyInjection.cs (como static, apenas com o método Register)</li>
+    </ul>
+    <h3>DbContext</h3>
+    <p>O [Name]Context implementa o DbContext que precisa do nuget Microsoft.EntityFrameworkCore</p>
+    <p>A convenção de nomenclatura da propriedade do DbSet é o nome da entidade no plural em UpperCamelCase</p>
+    <p>Recomendo a leitura dos links:</p>
+    <ul>
+        <li><a href="https://www.entityframeworktutorial.net/efcore/entity-framework-core-dbcontext.aspx">entityframeworktutorial entity-framework-core-dbcontext</a></li>
+        <li><a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/configuring-dbcontext">docs.microsoft configuring-dbcontext</a></li>
+    </ul>
+    <h3>Refatorações</h3>
+    <p>Ao reutilizar o projeto pronto, será necessário mover o Model e o DbContext criado para as respectivas pastas</p>
+    <p>Esta maneira acrescenta um pouco de trabalho para consertar todos os using e referências entre projetos.</p>
+    <h3>Services, Repositories e Controllers</h3>
+    <p> Definir as interfaces de Services e Repositories</p>
+    <p> Implementar os métodos nas suas respectivas classes</p>
+    <p> Refatorar o controller para depender apenas do Service</p>
+    <p> Consertar Registros de Injeção de dependência (DI) do I[Entity]Service para o Service e I[Entity]Repository para [Entity]Repository</p>
+    <h3>Crosscutting</h3>
+    <p>Passar os registros de DI para a classe DependencyInjection, conforme no exemplo</p>
+    <p>Remover registros do Startup.cs no Mvc</p>
+    <p>Remover do Mvc os Dependencies/Projects do projeto Data e do Domain.Service</p>
+    <h3>Migrations</h3>
+    <p>Não esquecer do Add-Migration [name] nem do update-database</p>
+    <p>No exemplo de aula, o banco antigo foi removido, a pasta de migrations antiga tbm</p>
+</div>
+
+<h1>A01 CRUD Simples</h1>
 <div class="col-md-6">
     <h2 class="display-4">Etapas:</h2>
     <p>Criar Modelo</p>
