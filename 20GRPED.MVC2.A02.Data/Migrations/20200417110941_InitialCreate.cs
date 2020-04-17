@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace _20GRPED.MVC1.A15.Mvc.Migrations
+namespace _20GRPED.MVC2.A02.Data.Migrations
 {
-    public partial class CreateBibliotecaInitial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using _20GRPED.MVC2.A02.Domain.Model.Interfaces.Services;
+using _20GRPED.MVC2.A02.Domain.Model.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using _20GRPED.MVC1.A15.Mvc.Data;
-using _20GRPED.MVC1.A15.Mvc.Models;
+using System.Threading.Tasks;
 
 namespace _20GRPED.MVC1.A15.Mvc.Controllers
 {
     public class LivroController : Controller
     {
-        private readonly BibliotecaContext _context;
+        private readonly ILivroService _livroService;
 
-        public LivroController(BibliotecaContext context)
+        public LivroController(ILivroService livroService)
         {
-            _context = context;
+            _livroService = livroService;
         }
 
         // GET: Livro
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Livros.ToListAsync());
+            return View(await _livroService.GetAllAsync());
         }
 
         // GET: Livro/Details/5
@@ -33,8 +29,7 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
                 return NotFound();
             }
 
-            var livroModel = await _context.Livros
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var livroModel = await _livroService.GetByIdAsync(id.Value);
             if (livroModel == null)
             {
                 return NotFound();
@@ -58,8 +53,7 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(livroModel);
-                await _context.SaveChangesAsync();
+                await _livroService.InsertAsync(livroModel);
                 return RedirectToAction(nameof(Index));
             }
             return View(livroModel);
@@ -73,7 +67,7 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
                 return NotFound();
             }
 
-            var livroModel = await _context.Livros.FindAsync(id);
+            var livroModel = await _livroService.GetByIdAsync(id.Value);
             if (livroModel == null)
             {
                 return NotFound();
@@ -97,12 +91,11 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
             {
                 try
                 {
-                    _context.Update(livroModel);
-                    await _context.SaveChangesAsync();
+                    await _livroService.UpdateAsync(livroModel);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LivroModelExists(livroModel.Id))
+                    if (await _livroService.GetByIdAsync(id) == null)
                     {
                         return NotFound();
                     }
@@ -124,8 +117,7 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
                 return NotFound();
             }
 
-            var livroModel = await _context.Livros
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var livroModel = await _livroService.GetByIdAsync(id.Value);
             if (livroModel == null)
             {
                 return NotFound();
@@ -139,15 +131,8 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var livroModel = await _context.Livros.FindAsync(id);
-            _context.Livros.Remove(livroModel);
-            await _context.SaveChangesAsync();
+            await _livroService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool LivroModelExists(int id)
-        {
-            return _context.Livros.Any(e => e.Id == id);
         }
     }
 }

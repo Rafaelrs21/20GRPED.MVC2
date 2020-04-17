@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>_20GRPED.MVC2.A02.Domain.Model</RootNamespace>
+  </PropertyGroup>
+
+</Project>

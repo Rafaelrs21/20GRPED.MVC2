@@ -1,7 +1,7 @@
-﻿using _20GRPED.MVC1.A15.Mvc.Models;
+﻿using _20GRPED.MVC2.A02.Domain.Model.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace _20GRPED.MVC1.A15.Mvc.Data
+namespace _20GRPED.MVC2.A02.Data.Context
 {
     public class BibliotecaContext : DbContext
     {

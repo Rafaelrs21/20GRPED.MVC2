@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using _20GRPED.MVC2.A02.InversionOfControl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using _20GRPED.MVC1.A15.Mvc.Data;
 
 namespace _20GRPED.MVC1.A15.Mvc
 {
@@ -27,8 +21,7 @@ namespace _20GRPED.MVC1.A15.Mvc
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
 
-            services.AddDbContext<BibliotecaContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("BibliotecaContext")));
+            DependencyInjection.Register(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
