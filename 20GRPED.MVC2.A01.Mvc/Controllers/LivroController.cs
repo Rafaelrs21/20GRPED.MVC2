@@ -1,8 +1,10 @@
-﻿using _20GRPED.MVC2.A02.Domain.Model.Interfaces.Services;
+﻿using System;
+using _20GRPED.MVC2.A02.Domain.Model.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using _20GRPED.MVC2.A02.Domain.Model.Entities;
+using _20GRPED.MVC2.A02.Domain.Model.Exceptions;
 
 namespace _20GRPED.MVC1.A15.Mvc.Controllers
 {
@@ -49,12 +51,19 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Isbn,Lancamento")] LivroEntity livroEntity)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Isbn,Lancamento,Paginas")] LivroEntity livroEntity)
         {
             if (ModelState.IsValid)
             {
-                await _livroService.InsertAsync(livroEntity);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _livroService.InsertAsync(livroEntity);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (EntityValidationException e)
+                {
+                    ModelState.AddModelError(e.PropertyName, e.Message);
+                }
             }
             return View(livroEntity);
         }

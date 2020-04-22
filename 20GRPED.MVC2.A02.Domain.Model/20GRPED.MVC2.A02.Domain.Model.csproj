@@ -5,4 +5,8 @@
     <RootNamespace>_20GRPED.MVC2.A02.Domain.Model</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+  </ItemGroup>
+
 </Project>

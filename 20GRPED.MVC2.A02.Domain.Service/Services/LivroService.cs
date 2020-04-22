@@ -1,8 +1,9 @@
-﻿using _20GRPED.MVC2.A02.Domain.Model.Interfaces.Repositories;
+﻿using _20GRPED.MVC2.A02.Domain.Model.Entities;
+using _20GRPED.MVC2.A02.Domain.Model.Exceptions;
+using _20GRPED.MVC2.A02.Domain.Model.Interfaces.Repositories;
 using _20GRPED.MVC2.A02.Domain.Model.Interfaces.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using _20GRPED.MVC2.A02.Domain.Model.Entities;
 
 namespace _20GRPED.MVC2.A02.Domain.Service.Services
 {
@@ -33,6 +34,12 @@ namespace _20GRPED.MVC2.A02.Domain.Service.Services
 
         public async Task InsertAsync(LivroEntity updatedEntity)
         {
+            var isbnExists = await _livroRepository.CheckIsbnAsync(updatedEntity.Isbn);
+            if (isbnExists)
+            {
+                throw new EntityValidationException(nameof(LivroEntity.Isbn), "ISBN já existe!");
+            }
+
             await _livroRepository.InsertAsync(updatedEntity);
         }
 
