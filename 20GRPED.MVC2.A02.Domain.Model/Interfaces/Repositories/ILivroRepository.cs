@@ -11,6 +11,7 @@ namespace _20GRPED.MVC2.A02.Domain.Model.Interfaces.Repositories
         Task InsertAsync(LivroEntity updatedEntity);
         Task UpdateAsync(LivroEntity insertedEntity);
         Task DeleteAsync(int id);
-        Task<bool> CheckIsbnAsync(string updatedEntityIsbn);
+        Task<bool> CheckIsbnAsync(string isbn, int id = -1);
+        Task<LivroEntity> GetByIsbnAsync(string isbn);
     }
 }

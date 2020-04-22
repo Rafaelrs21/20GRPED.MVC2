@@ -32,20 +32,26 @@ namespace _20GRPED.MVC2.A02.Domain.Service.Services
             return await _livroRepository.GetByIdAsync(id);
         }
 
-        public async Task InsertAsync(LivroEntity updatedEntity)
+        public async Task InsertAsync(LivroEntity insertedEntity)
         {
-            var isbnExists = await _livroRepository.CheckIsbnAsync(updatedEntity.Isbn);
+            var isbnExists = await _livroRepository.CheckIsbnAsync(insertedEntity.Isbn);
             if (isbnExists)
             {
                 throw new EntityValidationException(nameof(LivroEntity.Isbn), "ISBN já existe!");
             }
 
-            await _livroRepository.InsertAsync(updatedEntity);
+            await _livroRepository.InsertAsync(insertedEntity);
         }
 
-        public async Task UpdateAsync(LivroEntity insertedEntity)
+        public async Task UpdateAsync(LivroEntity updatedEntity)
         {
-            await _livroRepository.UpdateAsync(insertedEntity);
+            var isbnExists = await _livroRepository.CheckIsbnAsync(updatedEntity.Isbn, updatedEntity.Id);
+            if (isbnExists)
+            {
+                throw new EntityValidationException(nameof(LivroEntity.Isbn), "ISBN já existe em outro livro!");
+            }
+
+            await _livroRepository.UpdateAsync(updatedEntity);
         }
     }
 }

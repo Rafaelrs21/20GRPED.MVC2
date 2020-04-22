@@ -25,11 +25,16 @@ namespace _20GRPED.MVC2.A02.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> CheckIsbnAsync(string updatedEntityIsbn)
+        public async Task<bool> CheckIsbnAsync(string isbn, int id = -1)
         {
-            var isbnExists = await _context.Livros.AnyAsync(x => x.Isbn == updatedEntityIsbn);
+            var isbnExists = await _context.Livros.AnyAsync(x => x.Isbn == isbn && x.Id != id);
 
             return isbnExists;
+        }
+
+        public async Task<LivroEntity> GetByIsbnAsync(string isbn)
+        {
+            return await _context.Livros.SingleOrDefaultAsync(x => x.Isbn == isbn);
         }
 
         public async Task<IEnumerable<LivroEntity>> GetAllAsync()

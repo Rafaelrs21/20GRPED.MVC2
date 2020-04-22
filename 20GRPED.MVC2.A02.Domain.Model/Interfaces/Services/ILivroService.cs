@@ -8,8 +8,8 @@ namespace _20GRPED.MVC2.A02.Domain.Model.Interfaces.Services
     {
         Task<IEnumerable<LivroEntity>> GetAllAsync();
         Task<LivroEntity> GetByIdAsync(int id);
-        Task InsertAsync(LivroEntity updatedEntity);
-        Task UpdateAsync(LivroEntity insertedEntity);
+        Task InsertAsync(LivroEntity insertedEntity);
+        Task UpdateAsync(LivroEntity updatedEntity);
         Task DeleteAsync(int id);
     }
 }

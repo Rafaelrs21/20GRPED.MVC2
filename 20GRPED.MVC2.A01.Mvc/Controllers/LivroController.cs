@@ -89,7 +89,7 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Isbn,Lancamento")] LivroEntity livroEntity)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Isbn,Lancamento,Paginas")] LivroEntity livroEntity)
         {
             if (id != livroEntity.Id)
             {
@@ -101,6 +101,11 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
                 try
                 {
                     await _livroService.UpdateAsync(livroEntity);
+                }
+                catch (EntityValidationException e)
+                {
+                    ModelState.AddModelError(e.PropertyName, e.Message);
+                    return View(livroEntity);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
