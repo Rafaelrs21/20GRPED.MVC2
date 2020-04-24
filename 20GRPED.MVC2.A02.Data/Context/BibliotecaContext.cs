@@ -1,4 +1,5 @@
-﻿using _20GRPED.MVC2.A02.Domain.Model.Entities;
+﻿using _20GRPED.MVC2.A02.Data.Context.Configuration;
+using _20GRPED.MVC2.A02.Domain.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace _20GRPED.MVC2.A02.Data.Context
@@ -11,5 +12,12 @@ namespace _20GRPED.MVC2.A02.Data.Context
         }
 
         public DbSet<LivroEntity> Livros { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new LivroConfiguration());
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

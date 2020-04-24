@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+//using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _20GRPED.MVC2.A02.Domain.Model.Entities 
 { 
+    //[Table("livro_entity")]
     public class LivroEntity
     {
+        //[Column("LivroPk")]
         public int Id { get; set; }
 
         [Required]
