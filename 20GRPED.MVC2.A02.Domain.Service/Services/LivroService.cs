@@ -37,7 +37,7 @@ namespace _20GRPED.MVC2.A02.Domain.Service.Services
             var isbnExists = await _livroRepository.CheckIsbnAsync(insertedEntity.Isbn);
             if (isbnExists)
             {
-                throw new EntityValidationException(nameof(LivroEntity.Isbn), "ISBN já existe!");
+                throw new EntityValidationException(nameof(LivroEntity.Isbn), $"ISBN {insertedEntity.Isbn} já existe!");
             }
 
             await _livroRepository.InsertAsync(insertedEntity);
@@ -48,10 +48,15 @@ namespace _20GRPED.MVC2.A02.Domain.Service.Services
             var isbnExists = await _livroRepository.CheckIsbnAsync(updatedEntity.Isbn, updatedEntity.Id);
             if (isbnExists)
             {
-                throw new EntityValidationException(nameof(LivroEntity.Isbn), "ISBN já existe em outro livro!");
+                throw new EntityValidationException(nameof(LivroEntity.Isbn), $"ISBN {updatedEntity.Isbn} já existe em outro livro!");
             }
 
             await _livroRepository.UpdateAsync(updatedEntity);
+        }
+
+        public async Task<bool> CheckIsbnAsync(string isbn, int id)
+        {
+            return await _livroRepository.CheckIsbnAsync(isbn, id);
         }
     }
 }

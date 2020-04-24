@@ -148,5 +148,16 @@ namespace _20GRPED.MVC1.A15.Mvc.Controllers
             await _livroService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
+        [AcceptVerbs("GET", "POST")]
+        public async Task<IActionResult> CheckIsbn(string isbn, int id)
+        {
+            if (await _livroService.CheckIsbnAsync(isbn, id))
+            {
+                return Json($"ISBN {isbn} já existe!");
+            }
+
+            return Json(true);
+        }
     }
 }
