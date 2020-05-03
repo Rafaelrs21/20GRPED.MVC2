@@ -21,6 +21,8 @@ namespace _20GRPED.MVC1.A15.Mvc
         {
             services.AddControllersWithViews();
 
+            services.AddRazorPages();
+
             DependencyInjection.Register(services, Configuration);
         }
 
