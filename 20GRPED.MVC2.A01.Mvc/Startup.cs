@@ -1,9 +1,6 @@
-﻿using _20GRPED.MVC2.A01.Mvc.Areas.Identity.Data;
-using _20GRPED.MVC2.A02.InversionOfControl;
+﻿using _20GRPED.MVC2.A02.InversionOfControl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

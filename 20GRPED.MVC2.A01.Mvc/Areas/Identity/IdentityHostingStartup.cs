@@ -1,15 +1,15 @@
-﻿using System;
-using _20GRPED.MVC2.A01.Mvc.Areas.Identity.Data;
+﻿using _20GRPED.MVC2.A01.Mvc.Areas.Identity;
+using _20GRPED.MVC2.A02.Crosscutting.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-[assembly: HostingStartup(typeof(_20GRPED.MVC2.A01.Mvc.Areas.Identity.IdentityHostingStartup))]
+[assembly: HostingStartup(typeof(IdentityHostingStartup))]
 namespace _20GRPED.MVC2.A01.Mvc.Areas.Identity
 {
+    //Esse arquivo deveria estar no Crosscutting.Identity tbm, mas não consegui resolver esta parte.
     public class IdentityHostingStartup : IHostingStartup
     {
         public void Configure(IWebHostBuilder builder)

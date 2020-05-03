@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace _20GRPED.MVC2.A01.Mvc.Areas.Identity.Data.Migrations
+namespace _20GRPED.MVC2.A02.Crosscutting.Identity.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

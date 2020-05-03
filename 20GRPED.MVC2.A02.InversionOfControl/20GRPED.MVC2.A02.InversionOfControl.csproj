@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>_20GRPED.MVC2.A02.InversionOfControl</RootNamespace>
   </PropertyGroup>
 
@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\20GRPED.MVC2.A02.Data\20GRPED.MVC2.A02.Data.csproj" />
+    <ProjectReference Include="..\20GRPED.MVC2.A02.Domain.Model\20GRPED.MVC2.A02.Domain.Model.csproj" />
     <ProjectReference Include="..\20GRPED.MVC2.A02.Domain.Service\20GRPED.MVC2.A02.Domain.Service.csproj" />
   </ItemGroup>
 
