@@ -1,13 +1,14 @@
-﻿using System;
-using _20GRPED.MVC2.A02.Domain.Model.Interfaces.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using _20GRPED.MVC2.A02.Domain.Model.Entities;
 using _20GRPED.MVC2.A02.Domain.Model.Exceptions;
+using _20GRPED.MVC2.A02.Domain.Model.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace _20GRPED.MVC1.A15.Mvc.Controllers
 {
+    [Authorize]
     public class LivroController : Controller
     {
         private readonly ILivroService _livroService;

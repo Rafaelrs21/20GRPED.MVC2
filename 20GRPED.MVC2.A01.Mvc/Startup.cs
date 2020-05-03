@@ -1,6 +1,9 @@
-﻿using _20GRPED.MVC2.A02.InversionOfControl;
+﻿using _20GRPED.MVC2.A01.Mvc.Areas.Identity.Data;
+using _20GRPED.MVC2.A02.InversionOfControl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,7 +22,7 @@ namespace _20GRPED.MVC1.A15.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
+            services.AddControllersWithViews();
 
             DependencyInjection.Register(services, Configuration);
         }
@@ -30,6 +33,7 @@ namespace _20GRPED.MVC1.A15.Mvc
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -42,6 +46,7 @@ namespace _20GRPED.MVC1.A15.Mvc
 
             app.UseRouting();
 
+            app.UseAuthentication(); //Adicionar após Scaffolding
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -49,6 +54,7 @@ namespace _20GRPED.MVC1.A15.Mvc
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages(); //Adicionar após Scaffolding
             });
         }
     }
