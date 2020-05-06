@@ -19,7 +19,10 @@ namespace _20GRPED.MVC1.A15.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddRazorRuntimeCompilation(); ;
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
+
+            services.AddRazorPages(); //Auth
 
             DependencyInjection.Register(services, Configuration);
         }
@@ -30,6 +33,7 @@ namespace _20GRPED.MVC1.A15.Mvc
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage(); //Auth - nuget Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore
             }
             else
             {
@@ -42,6 +46,7 @@ namespace _20GRPED.MVC1.A15.Mvc
 
             app.UseRouting();
 
+            app.UseAuthentication(); //Auth
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -49,6 +54,7 @@ namespace _20GRPED.MVC1.A15.Mvc
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages(); //Auth
             });
         }
     }
