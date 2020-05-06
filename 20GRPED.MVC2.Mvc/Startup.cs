@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace _20GRPED.MVC1.A15.Mvc
+namespace _20GRPED.MVC2.Mvc
 {
     public class Startup
     {

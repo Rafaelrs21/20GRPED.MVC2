@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace _20GRPED.MVC1.A15.Mvc
+namespace _20GRPED.MVC2.Mvc
 {
     public class Program
     {

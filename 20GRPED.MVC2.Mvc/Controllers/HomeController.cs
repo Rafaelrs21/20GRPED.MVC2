@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using _20GRPED.MVC1.A15.Mvc.Models;
+using _20GRPED.MVC2.Mvc.Models;
 
-namespace _20GRPED.MVC1.A15.Mvc.Controllers
+namespace _20GRPED.MVC2.Mvc.Controllers
 {
     public class HomeController : Controller
     {

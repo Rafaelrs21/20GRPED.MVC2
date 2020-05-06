@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace _20GRPED.MVC1.A15.Mvc.Controllers
+namespace _20GRPED.MVC2.Mvc.Controllers
 {
     [Authorize]
     public class LivroController : Controller
