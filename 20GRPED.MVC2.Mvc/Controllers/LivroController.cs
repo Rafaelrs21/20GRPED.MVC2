@@ -52,6 +52,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Nome,Isbn,Lancamento,Paginas")] LivroEntity livroEntity)
         {
             if (ModelState.IsValid)
