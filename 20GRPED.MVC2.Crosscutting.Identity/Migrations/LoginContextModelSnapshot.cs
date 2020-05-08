@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using _20GRPED.MVC2.Mvc.Areas.Identity.Data;
+using _20GRPED.MVC2.Crosscutting.Identity;
 
-namespace _20GRPED.MVC2.Mvc.Areas.Identity.Data.Migrations
+namespace _20GRPED.MVC2.Crosscutting.Identity.Migrations
 {
     [DbContext(typeof(LoginContext))]
-    [Migration("20200506105744_InitialIdentityCreate")]
-    partial class InitialIdentityCreate
+    partial class LoginContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

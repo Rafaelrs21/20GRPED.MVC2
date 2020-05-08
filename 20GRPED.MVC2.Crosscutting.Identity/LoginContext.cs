@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace _20GRPED.MVC2.Mvc.Areas.Identity.Data
+namespace _20GRPED.MVC2.Crosscutting.Identity
 {
     public class LoginContext : IdentityDbContext<IdentityUser>
     {

@@ -1,10 +1,12 @@
-﻿using _20GRPED.MVC2.InversionOfControl;
+﻿using _20GRPED.MVC2.Crosscutting.Identity;
+using _20GRPED.MVC2.InversionOfControl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+[assembly: HostingStartup(typeof(IdentityHostingStartup))]
 namespace _20GRPED.MVC2.Mvc
 {
     public class Startup

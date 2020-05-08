@@ -1,8 +1,6 @@
-﻿using System;
-using _20GRPED.MVC2.Mvc.Areas.Identity.Data;
+﻿using _20GRPED.MVC2.Crosscutting.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
