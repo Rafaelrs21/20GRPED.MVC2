@@ -5,17 +5,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
+using _20GRPED.MVC2.Domain.Model.Options;
+using Microsoft.Extensions.Options;
 
 namespace _20GRPED.MVC2.Data.Repositories
 {
     public class LivroRepository : ILivroRepository
     {
         private readonly BibliotecaContext _context;
+        private readonly IOptionsMonitor<TestOption> _testOption;
 
         public LivroRepository(
-            BibliotecaContext context)
+            BibliotecaContext context,
+            IOptionsMonitor<TestOption> testOption)
         {
             _context = context;
+            _testOption = testOption;
         }
 
         public async Task DeleteAsync(int id)

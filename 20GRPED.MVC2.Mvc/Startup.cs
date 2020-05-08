@@ -1,12 +1,13 @@
 ﻿using _20GRPED.MVC2.Crosscutting.Identity;
+using _20GRPED.MVC2.Domain.Model.Options;
 using _20GRPED.MVC2.InversionOfControl;
+using _20GRPED.MVC2.Mvc.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-[assembly: HostingStartup(typeof(IdentityHostingStartup))]
 namespace _20GRPED.MVC2.Mvc
 {
     public class Startup
@@ -26,7 +27,9 @@ namespace _20GRPED.MVC2.Mvc
 
             services.AddRazorPages(); //Auth
 
-            DependencyInjection.Register(services, Configuration);
+            services.RegisterInjections(Configuration);
+            services.RegisterConfigurations(Configuration);
+            services.RegisterIdentity(Configuration);
 
             services.AddAuthorization(
                 options => options.AddPolicy("Admin", policy => policy.RequireClaim("AdminClaim")));
