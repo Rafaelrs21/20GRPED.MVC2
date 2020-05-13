@@ -1,10 +1,12 @@
-﻿using _20GRPED.MVC2.Data.Context;
+﻿using System;
+using _20GRPED.MVC2.Data.Context;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
+using _20GRPED.MVC2.Domain.Model.Exceptions;
 using _20GRPED.MVC2.Domain.Model.Options;
 using Microsoft.Extensions.Options;
 
@@ -52,16 +54,30 @@ namespace _20GRPED.MVC2.Data.Repositories
             return await _context.Livros.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task InsertAsync(LivroEntity updatedEntity)
+        public async Task InsertAsync(LivroEntity insertedEntity)
         {
-            _context.Add(updatedEntity);
+            _context.Add(insertedEntity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(LivroEntity insertedEntity)
+        public async Task UpdateAsync(LivroEntity updatedEntity)
         {
-            _context.Update(insertedEntity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Update(updatedEntity);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (await GetByIdAsync(updatedEntity.Id) == null)
+                {
+                    throw new RepositoryException("Livro não encontrado!");
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }

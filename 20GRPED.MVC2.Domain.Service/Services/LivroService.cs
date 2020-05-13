@@ -1,4 +1,5 @@
-﻿using _20GRPED.MVC2.Domain.Model.Entities;
+﻿using System;
+using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Repositories;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
@@ -50,7 +51,7 @@ namespace _20GRPED.MVC2.Domain.Service.Services
             {
                 throw new EntityValidationException(nameof(LivroEntity.Isbn), $"ISBN {updatedEntity.Isbn} já existe em outro livro!");
             }
-
+                
             await _livroRepository.UpdateAsync(updatedEntity);
         }
 
