@@ -11,7 +11,7 @@ namespace _20GRPED.MVC2.Mvc.Extensions
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            //services.Configure<TestOption>(configuration.GetSection("TestOption"));
+            services.Configure<BibliotecaHttpOptions>(configuration.GetSection(nameof(BibliotecaHttpOptions)));
             services.AddOptions<TestOption>()
                 .Configure(option =>
                 {

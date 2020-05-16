@@ -1,10 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
+using _20GRPED.MVC2.Mvc.HttpServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace _20GRPED.MVC2.Mvc.Controllers
 {
@@ -13,7 +18,8 @@ namespace _20GRPED.MVC2.Mvc.Controllers
     {
         private readonly ILivroService _livroService;
 
-        public LivroController(ILivroService livroService)
+        public LivroController(
+            ILivroService livroService)
         {
             _livroService = livroService;
         }
@@ -21,7 +27,8 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         // GET: Livro
         public async Task<IActionResult> Index()
         {
-            return View(await _livroService.GetAllAsync());
+            var livros = await _livroService.GetAllAsync();
+            return View(livros);
         }
 
         // GET: Livro/Details/5

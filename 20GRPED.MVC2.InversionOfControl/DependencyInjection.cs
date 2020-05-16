@@ -22,5 +22,15 @@ namespace _20GRPED.MVC2.InversionOfControl
             services.AddScoped<ILivroService, LivroService>();
             services.AddScoped<ILivroRepository, LivroRepository>();
         }
+
+        public static void RegisterDataAccess(
+            this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services.AddDbContext<BibliotecaContext>(options => 
+                options.UseSqlServer(configuration.GetConnectionString("BibliotecaContext")));
+
+            services.AddScoped<ILivroRepository, LivroRepository>();
+        }
     }
 }

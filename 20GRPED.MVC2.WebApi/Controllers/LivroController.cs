@@ -112,5 +112,13 @@ namespace _20GRPED.MVC2.WebApi.Controllers
 
             return livroEntity;
         }
+
+        [HttpGet("CheckIsbn/{isbn}/{id}")]
+        public async Task<ActionResult<bool>> CheckIsbnAsync(string isbn, int id)
+        {
+            var isIsbnValid = await _livroService.CheckIsbnAsync(isbn, id);
+
+            return isIsbnValid;
+        }
     }
 }
