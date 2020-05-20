@@ -30,17 +30,13 @@ namespace _20GRPED.MVC2.Mvc
 
             services.AddRazorPages(); //Auth
 
+            services.RegisterConfigurations(Configuration);
+
+            services.RegisterHttpClients(Configuration);
+
             services.RegisterDataAccess(Configuration);
 
-            var bibliotecaHttpOptionsSection = Configuration.GetSection(nameof(BibliotecaHttpOptions));
-
-            services.AddHttpClient(bibliotecaHttpOptionsSection["Name"], x => { x.BaseAddress = new Uri(bibliotecaHttpOptionsSection["ApiBaseUrl"]); });
-
-            services.AddScoped<ILivroService, LivroHttpService>();
-
-            services.RegisterConfigurations(Configuration);
-            services.RegisterIdentity(Configuration);
-
+            services.RegisterIdentityForMvc(Configuration);
             services.AddAuthorization(
                 options => options.AddPolicy("Admin", policy => policy.RequireClaim("AdminClaim")));
         }

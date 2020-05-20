@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _20GRPED.MVC2.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LivroController : ControllerBase
     {
         private readonly ILivroService _livroService;

@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using _20GRPED.MVC2.Crosscutting.Identity;
+using _20GRPED.MVC2.Domain.Model.Options;
 using _20GRPED.MVC2.InversionOfControl;
+using _20GRPED.MVC2.WebApi.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace _20GRPED.MVC2.WebApi
 {
@@ -28,12 +34,23 @@ namespace _20GRPED.MVC2.WebApi
         {
             services.AddControllers();
 
+            services.RegisterConfigurations(Configuration);
+
+            services.RegisterIdentityForWebApi(Configuration);
+
             services.RegisterInjections(Configuration);
+
+            services.ConfigureAuthentication(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //app.UseCors(x => x
+            //    .AllowAnyOrigin()
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -42,6 +59,8 @@ namespace _20GRPED.MVC2.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
