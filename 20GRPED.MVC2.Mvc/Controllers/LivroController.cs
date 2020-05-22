@@ -28,6 +28,10 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         public async Task<IActionResult> Index()
         {
             var livros = await _livroService.GetAllAsync();
+
+            if(livros == null)
+                return Redirect("/Identity/Account/Login");
+
             return View(livros);
         }
 

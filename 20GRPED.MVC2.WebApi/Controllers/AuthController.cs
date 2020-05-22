@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using _20GRPED.MVC2.Crosscutting.Identity.RequestModels;
 using _20GRPED.MVC2.Domain.Model.Options;
-using _20GRPED.MVC2.WebApi.RequestModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
