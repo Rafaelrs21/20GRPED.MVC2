@@ -10,6 +10,7 @@ namespace _20GRPED.MVC2.Domain.Model.Options
     {
         public Uri ApiBaseUrl { get; set; }
         public string LivroPath { get; set; }
+        public string AutorPath { get; set; }
         public string Name { get; set; }
         public int Timeout { get; set; }
     }

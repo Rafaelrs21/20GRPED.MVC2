@@ -21,8 +21,11 @@ namespace _20GRPED.MVC2.InversionOfControl
 
             services.AddScoped<ILivroService, LivroService>();
             services.AddScoped<ILivroRepository, LivroRepository>();
+            services.AddScoped<IAutorService, AutorService>();
+            services.AddScoped<IAutorRepository, AutorRepository>();
         }
 
+        //REMOVER PARA MVC
         public static void RegisterDataAccess(
             this IServiceCollection services,
             IConfiguration configuration)

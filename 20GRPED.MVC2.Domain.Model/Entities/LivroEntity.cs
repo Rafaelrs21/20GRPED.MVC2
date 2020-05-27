@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 //using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc;
@@ -28,5 +29,8 @@ namespace _20GRPED.MVC2.Domain.Model.Entities
 
         [Range(10, 3000, ErrorMessage = "Livro deve ter entre {2} e {1} páginas.")]
         public int Paginas { get; set; }
+
+        public int AutorEntityId { get; set; }
+        public AutorEntity Autor { get; set; }
     }
 }

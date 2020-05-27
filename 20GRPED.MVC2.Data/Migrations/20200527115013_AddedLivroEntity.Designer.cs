@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _20GRPED.MVC2.Data.Context;
 
 namespace _20GRPED.MVC2.Data.Migrations
 {
     [DbContext(typeof(BibliotecaContext))]
-    partial class BibliotecaContextModelSnapshot : ModelSnapshot
+    [Migration("20200527115013_AddedLivroEntity")]
+    partial class AddedLivroEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

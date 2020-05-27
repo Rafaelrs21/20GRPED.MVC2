@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
-using _20GRPED.MVC2.Mvc.HttpServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 namespace _20GRPED.MVC2.Mvc.Controllers
 {
@@ -63,8 +58,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "Admin")]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Isbn,Lancamento,Paginas")] LivroEntity livroEntity)
+        public async Task<IActionResult> Create(LivroEntity livroEntity)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +96,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Isbn,Lancamento,Paginas")] LivroEntity livroEntity)
+        public async Task<IActionResult> Edit(int id, LivroEntity livroEntity)
         {
             if (id != livroEntity.Id)
             {
