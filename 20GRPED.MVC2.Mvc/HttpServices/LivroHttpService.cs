@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Text.Json;
 using _20GRPED.MVC2.Domain.Model.Options;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
@@ -62,13 +64,18 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
             }
             var httpResponseMessage = await _httpClient.GetAsync(_bibliotecaHttpOptions.CurrentValue.LivroPath);
 
-            if (!httpResponseMessage.IsSuccessStatusCode)
+            if (httpResponseMessage.IsSuccessStatusCode)
             {
-                await _signInManager.SignOutAsync();
-                return null;
+                return JsonConvert.DeserializeObject<List<LivroEntity>>(await httpResponseMessage.Content
+                    .ReadAsStringAsync());
             }
 
-            return JsonConvert.DeserializeObject<List<LivroEntity>>(await httpResponseMessage.Content.ReadAsStringAsync());
+            if (httpResponseMessage.StatusCode == HttpStatusCode.Forbidden)
+            {
+                await _signInManager.SignOutAsync();
+            }
+
+            return null;
         }
 
         public async Task<LivroEntity> GetByIdAsync(int id)
@@ -81,13 +88,19 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
             var pathWithId = $"{_bibliotecaHttpOptions.CurrentValue.LivroPath}/{id}";
             var httpResponseMessage = await _httpClient.GetAsync(pathWithId);
 
-            if (!httpResponseMessage.IsSuccessStatusCode)
+            if (httpResponseMessage.IsSuccessStatusCode)
             {
-                await _signInManager.SignOutAsync();
-                return null;
+                return JsonConvert.DeserializeObject<LivroEntity>(await httpResponseMessage.Content
+                    .ReadAsStringAsync());
             }
 
-            return JsonConvert.DeserializeObject<LivroEntity>(await httpResponseMessage.Content.ReadAsStringAsync());
+            if (httpResponseMessage.StatusCode == HttpStatusCode.Forbidden)
+            {
+                await _signInManager.SignOutAsync();
+                new RedirectToActionResult("Livro", "Index", null);
+            }
+
+            return null;
         }
 
         public async Task InsertAsync(LivroEntity insertedEntity)
@@ -160,7 +173,7 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
                 await _signInManager.SignOutAsync();
-                return false; //rever, pode ser que tenha que inverter ou levantar uma exceção
+                return false;
             }
 
             return bool.Parse(await httpResponseMessage.Content.ReadAsStringAsync());

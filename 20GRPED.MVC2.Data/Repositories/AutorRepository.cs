@@ -35,7 +35,9 @@ namespace _20GRPED.MVC2.Data.Repositories
 
         public async Task<AutorEntity> GetByIdAsync(int id)
         {
-            return await _context.Autores.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Autores
+                .Include(x => x.Livros)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task InsertAsync(AutorEntity insertedEntity)

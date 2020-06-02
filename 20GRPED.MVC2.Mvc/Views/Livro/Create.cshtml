@@ -1,4 +1,4 @@
-﻿@model _20GRPED.MVC2.Domain.Model.Entities.LivroEntity
+﻿@model _20GRPED.MVC2.Mvc.ViewModels.LivroViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -31,6 +31,15 @@
                 <label asp-for="Paginas" class="control-label"></label>
                 <input asp-for="Paginas" class="form-control" />
                 <span asp-validation-for="Paginas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Autor" class="control-label"></label>
+                <select asp-for="AutorEntityId" 
+                        asp-items="Model.Autores"
+                        class="form-control" > 
+                    <option value="">Escolha um Autor</option>
+                </select>  
+                <span asp-validation-for="Autor" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

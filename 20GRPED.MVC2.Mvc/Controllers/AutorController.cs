@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace _20GRPED.MVC2.Mvc.Controllers
 {
+    [Authorize]
     public class AutorController : Controller
     {
         private readonly IAutorService _autorService;

@@ -79,7 +79,7 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
 
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                await _signInManager.SignOutAsync();
+                //await _signInManager.SignOutAsync();
                 return null;
             }
 

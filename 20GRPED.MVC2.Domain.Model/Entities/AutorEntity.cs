@@ -20,6 +20,6 @@ namespace _20GRPED.MVC2.Domain.Model.Entities
         [DataType(DataType.Date)]
         public DateTime Nascimento { get; set; }
 
-        public List<LivroEntity> Livro { get; set; }
+        public List<LivroEntity> Livros { get; set; }
     }
 }

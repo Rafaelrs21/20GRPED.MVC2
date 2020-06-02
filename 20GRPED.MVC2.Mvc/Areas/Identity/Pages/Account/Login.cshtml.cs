@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net.Http;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using _20GRPED.MVC2.Crosscutting.Identity.RequestModels;
 using _20GRPED.MVC2.Mvc.HttpServices;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -134,7 +131,7 @@ namespace _20GRPED.MVC2.Mvc.Areas.Identity.Pages.Account
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
-                MaxAge = TimeSpan.FromMinutes(1) //refatorar para pegar de configuração
+                MaxAge = TimeSpan.FromMinutes(10)
             };
 
             _httpContextAccessor.HttpContext.Response.Cookies.Delete("bibliotecaToken");

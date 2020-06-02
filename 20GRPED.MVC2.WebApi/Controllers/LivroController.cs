@@ -27,7 +27,7 @@ namespace _20GRPED.MVC2.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<LivroEntity>>> GetLivroEntity()
         {
             var livros = await _livroService.GetAllAsync();
-            return livros.ToList();
+            return Ok(livros.ToList());
         }
 
         [HttpGet("{id}")]
@@ -45,7 +45,7 @@ namespace _20GRPED.MVC2.WebApi.Controllers
                 return NotFound();
             }
 
-            return livroEntity;
+            return Ok(livroEntity);
         }
 
         [HttpPut("{id}")]
@@ -59,6 +59,7 @@ namespace _20GRPED.MVC2.WebApi.Controllers
             try
             {
                 await _livroService.UpdateAsync(livroEntity);
+                return Ok();
             }
             catch (EntityValidationException e)
             {
@@ -84,9 +85,7 @@ namespace _20GRPED.MVC2.WebApi.Controllers
             {
                 await _livroService.InsertAsync(livroEntity);
 
-                return CreatedAtAction(
-                    "GetLivroEntity", 
-                    new { id = livroEntity.Id }, livroEntity);
+                return Ok(livroEntity);
             }
             catch (EntityValidationException e)
             {
@@ -112,7 +111,7 @@ namespace _20GRPED.MVC2.WebApi.Controllers
 
             await _livroService.DeleteAsync(id);
 
-            return livroEntity;
+            return Ok(livroEntity);
         }
 
         [HttpGet("CheckIsbn/{isbn}/{id}")]
@@ -120,7 +119,7 @@ namespace _20GRPED.MVC2.WebApi.Controllers
         {
             var isIsbnValid = await _livroService.CheckIsbnAsync(isbn, id);
 
-            return isIsbnValid;
+            return Ok(isIsbnValid);
         }
     }
 }

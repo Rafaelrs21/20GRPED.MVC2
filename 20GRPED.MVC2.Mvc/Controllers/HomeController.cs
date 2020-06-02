@@ -31,8 +31,12 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         public IActionResult Index()
         {
             var cookieExists = _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue("cookieTest", out var cookieTest);
+            var bibliotecaTokenExists =
+                _httpContextAccessor.HttpContext.Request.Cookies.TryGetValue("bibliotecaToken",
+                    out var bibliotecaToken);
 
             ViewBag.CookieTest = cookieExists ? cookieTest : "Cookie not found!";
+            ViewBag.BibliotecaToken = bibliotecaTokenExists ? bibliotecaToken : "Cookie bibliotecaToken not found!";
 
             var options = new CookieOptions();
             options.HttpOnly = true;

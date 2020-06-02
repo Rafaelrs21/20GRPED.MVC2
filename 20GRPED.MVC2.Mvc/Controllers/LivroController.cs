@@ -2,6 +2,7 @@
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
+using _20GRPED.MVC2.Mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +13,14 @@ namespace _20GRPED.MVC2.Mvc.Controllers
     public class LivroController : Controller
     {
         private readonly ILivroService _livroService;
+        private readonly IAutorService _autorService;
 
         public LivroController(
-            ILivroService livroService)
+            ILivroService livroService,
+            IAutorService autorService)
         {
             _livroService = livroService;
+            _autorService = autorService;
         }
 
         // GET: Livro
@@ -48,9 +52,11 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         }
 
         // GET: Livro/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var livroViewModel = new LivroViewModel(await _autorService.GetAllAsync());
+
+            return View(livroViewModel);
         }
 
         // POST: Livro/Create
@@ -72,7 +78,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
                     ModelState.AddModelError(e.PropertyName, e.Message);
                 }
             }
-            return View(livroEntity);
+            return View(new LivroViewModel(livroEntity));
         }
 
         // GET: Livro/Edit/5
@@ -88,7 +94,10 @@ namespace _20GRPED.MVC2.Mvc.Controllers
             {
                 return NotFound();
             }
-            return View(livroModel);
+
+            var livroViewModel = new LivroViewModel(livroModel, await _autorService.GetAllAsync());
+
+            return View(livroViewModel);
         }
 
         // POST: Livro/Edit/5
@@ -112,7 +121,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
                 catch (EntityValidationException e)
                 {
                     ModelState.AddModelError(e.PropertyName, e.Message);
-                    return View(livroEntity);
+                    return View(new LivroViewModel(livroEntity));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -127,7 +136,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(livroEntity);
+            return View(new LivroViewModel(livroEntity));
         }
 
         // GET: Livro/Delete/5

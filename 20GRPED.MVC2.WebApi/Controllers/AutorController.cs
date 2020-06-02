@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
@@ -26,7 +27,7 @@ namespace _20GRPED.MVC2.WebApi.Controllers
         public async Task<ActionResult<IEnumerable<AutorEntity>>> GetAutorEntity()
         {
             var autors = await _autorService.GetAllAsync();
-            return autors.ToList();
+            return Ok(autors.ToList());
         }
 
         [HttpGet("{id}")]
@@ -43,6 +44,8 @@ namespace _20GRPED.MVC2.WebApi.Controllers
             {
                 return NotFound();
             }
+
+            var teste = JsonSerializer.Serialize(autorEntity);
 
             return autorEntity;
         }
@@ -76,9 +79,10 @@ namespace _20GRPED.MVC2.WebApi.Controllers
 
             await _autorService.InsertAsync(autorEntity);
 
-            return CreatedAtAction(
-                "GetAutorEntity",
-                new { id = autorEntity.Id }, autorEntity);
+            return Ok(autorEntity);
+            //return CreatedAtAction(
+            //    "GetAutorEntity",
+            //    new { id = autorEntity.Id }, autorEntity);
         }
 
         // DELETE: api/Autor/5
@@ -98,7 +102,7 @@ namespace _20GRPED.MVC2.WebApi.Controllers
 
             await _autorService.DeleteAsync(id);
 
-            return autorEntity;
+            return Ok(autorEntity);
         }
     }
 }
