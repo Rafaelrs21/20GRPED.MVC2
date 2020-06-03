@@ -1,20 +1,27 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
+using _20GRPED.MVC2.Mvc.HttpServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace _20GRPED.MVC2.Mvc.Controllers
 {
     [Authorize]
     public class AutorController : Controller
     {
-        private readonly IAutorService _autorService;
+        private readonly IAutorHttpService _autorService;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
         public AutorController(
-            IAutorService autorService)
+            IAutorHttpService autorService,
+            SignInManager<IdentityUser> signInManager)
         {
             _autorService = autorService;
+            _signInManager = signInManager;
         }
 
         // GET: Autor
@@ -36,7 +43,26 @@ namespace _20GRPED.MVC2.Mvc.Controllers
                 return NotFound();
             }
 
-            var autorModel = await _autorService.GetByIdAsync(id.Value);
+            var httpResponseMessage = await _autorService.GetByIdHttpAsync(id.Value);
+
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                if (httpResponseMessage.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    await _signInManager.SignOutAsync();
+                    return Redirect("/Identity/Account/Login");
+                }
+                else
+                {
+                    var message = await httpResponseMessage.Content.ReadAsStringAsync();
+                    ModelState.AddModelError(string.Empty, message);
+
+                    var autores = await _autorService.GetAllAsync();
+                    return View(nameof(Index), autores);
+                }
+            }
+
+            var autorModel = JsonConvert.DeserializeObject<AutorEntity>(await httpResponseMessage.Content.ReadAsStringAsync());
             if (autorModel == null)
             {
                 return NotFound();

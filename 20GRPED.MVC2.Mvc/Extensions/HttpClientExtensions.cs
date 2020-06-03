@@ -18,7 +18,7 @@ namespace _20GRPED.MVC2.Mvc.Extensions
             services.AddHttpClient(bibliotecaHttpOptions.Name, x => { x.BaseAddress = bibliotecaHttpOptions.ApiBaseUrl; });
 
             services.AddScoped<ILivroService, LivroHttpService>();
-            services.AddScoped<IAutorService, AutorHttpService>();
+            services.AddScoped<IAutorHttpService, AutorHttpService>();
             services.AddScoped<IAuthHttpService, AuthHttpService>();
         }
     }

@@ -42,10 +42,8 @@ namespace _20GRPED.MVC2.WebApi.Controllers
 
             if (autorEntity == null)
             {
-                return NotFound();
+                return NotFound("Not found message test!");
             }
-
-            var teste = JsonSerializer.Serialize(autorEntity);
 
             return autorEntity;
         }

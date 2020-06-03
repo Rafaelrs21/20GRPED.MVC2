@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
-using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
 using _20GRPED.MVC2.Domain.Model.Options;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace _20GRPED.MVC2.Mvc.HttpServices
 {
-    public class AutorHttpService : IAutorService
+    public class AutorHttpService : IAutorHttpService
     {
         private readonly HttpClient _httpClient;
         private readonly IOptionsMonitor<BibliotecaHttpOptions> _bibliotecaHttpOptions;
@@ -84,6 +83,19 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
             }
 
             return JsonConvert.DeserializeObject<AutorEntity>(await httpResponseMessage.Content.ReadAsStringAsync());
+        }
+
+        public async Task<HttpResponseMessage> GetByIdHttpAsync(int id)
+        {
+            var jwtSuccess = await AddAuthJwtToRequest();
+            if (!jwtSuccess)
+            {
+                return null;
+            }
+            var pathWithId = $"{_bibliotecaHttpOptions.CurrentValue.AutorPath}/{id}";
+            var httpResponseMessage = await _httpClient.GetAsync(pathWithId);
+
+            return httpResponseMessage;
         }
 
         public async Task InsertAsync(AutorEntity insertedEntity)
