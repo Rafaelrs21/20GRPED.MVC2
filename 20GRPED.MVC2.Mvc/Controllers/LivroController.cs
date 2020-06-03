@@ -2,6 +2,7 @@
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
+using _20GRPED.MVC2.Mvc.HttpServices;
 using _20GRPED.MVC2.Mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,11 @@ namespace _20GRPED.MVC2.Mvc.Controllers
     public class LivroController : Controller
     {
         private readonly ILivroService _livroService;
-        private readonly IAutorService _autorService;
+        private readonly IAutorHttpService _autorService;
 
         public LivroController(
             ILivroService livroService,
-            IAutorService autorService)
+            IAutorHttpService autorService)
         {
             _livroService = livroService;
             _autorService = autorService;
@@ -54,7 +55,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         // GET: Livro/Create
         public async Task<IActionResult> Create()
         {
-            var livroViewModel = new LivroViewModel(await _autorService.GetAllAsync());
+            var livroViewModel = new LivroAutorAggregateViewModel(await _autorService.GetAllAsync());
 
             return View(livroViewModel);
         }
@@ -64,13 +65,15 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(LivroEntity livroEntity)
+        public async Task<IActionResult> Create(LivroAutorAggregateViewModel livroAutorViewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _livroService.InsertAsync(livroEntity);
+                    var livroAutorAggregateEntity = livroAutorViewModel.ToAggregateEntity();
+
+                    await _livroService.InsertAsync(livroAutorAggregateEntity);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (EntityValidationException e)
@@ -78,7 +81,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
                     ModelState.AddModelError(e.PropertyName, e.Message);
                 }
             }
-            return View(new LivroViewModel(livroEntity));
+            return View(livroAutorViewModel);
         }
 
         // GET: Livro/Edit/5

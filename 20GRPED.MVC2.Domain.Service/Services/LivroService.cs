@@ -11,11 +11,14 @@ namespace _20GRPED.MVC2.Domain.Service.Services
     public class LivroService : ILivroService
     {
         private readonly ILivroRepository _livroRepository;
+        private readonly IAutorService _autorService;
 
         public LivroService(
-            ILivroRepository livroRepository)
+            ILivroRepository livroRepository,
+            IAutorService autorService)
         {
             _livroRepository = livroRepository;
+            _autorService = autorService;
         }
 
         public async Task DeleteAsync(int id)
@@ -33,15 +36,23 @@ namespace _20GRPED.MVC2.Domain.Service.Services
             return await _livroRepository.GetByIdAsync(id);
         }
 
-        public async Task InsertAsync(LivroEntity insertedEntity)
+        public async Task InsertAsync(LivroAutorAggregateEntity livroAutorAggregateEntity)
         {
-            var isbnExists = await _livroRepository.CheckIsbnAsync(insertedEntity.Isbn);
+            var isbnExists = await _livroRepository.CheckIsbnAsync(livroAutorAggregateEntity.LivroEntity.Isbn);
             if (isbnExists)
             {
-                throw new EntityValidationException(nameof(LivroEntity.Isbn), $"ISBN {insertedEntity.Isbn} já existe!");
+                throw new EntityValidationException(nameof(LivroEntity.Isbn), $"ISBN {livroAutorAggregateEntity.LivroEntity.Isbn} já existe!");
             }
 
-            await _livroRepository.InsertAsync(insertedEntity);
+            if (livroAutorAggregateEntity.AutorEntity is null)
+            {
+                await _livroRepository.InsertAsync(livroAutorAggregateEntity.LivroEntity);
+            }
+            else
+            {
+                await _livroRepository.InsertAsync(livroAutorAggregateEntity.LivroEntity);
+                await _autorService.InsertAsync(livroAutorAggregateEntity.AutorEntity);
+            }
         }
 
         public async Task UpdateAsync(LivroEntity updatedEntity)

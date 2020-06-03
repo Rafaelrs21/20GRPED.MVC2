@@ -103,7 +103,7 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
             return null;
         }
 
-        public async Task InsertAsync(LivroEntity insertedEntity)
+        public async Task InsertAsync(LivroAutorAggregateEntity livroAutorAggregateEntity)
         {
             var jwtSuccess = await AddAuthJwtToRequest();
             if (!jwtSuccess)
@@ -112,7 +112,7 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
             }
             var uriPath = $"{_bibliotecaHttpOptions.CurrentValue.LivroPath}";
 
-            var httpContent = new StringContent(JsonConvert.SerializeObject(insertedEntity), Encoding.UTF8, "application/json");
+            var httpContent = new StringContent(JsonConvert.SerializeObject(livroAutorAggregateEntity), Encoding.UTF8, "application/json");
 
             var httpResponseMessage = await _httpClient.PostAsync(uriPath, httpContent);
 

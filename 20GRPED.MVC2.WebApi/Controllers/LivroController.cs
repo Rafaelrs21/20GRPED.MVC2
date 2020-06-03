@@ -76,16 +76,16 @@ namespace _20GRPED.MVC2.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<LivroEntity>> PostLivroEntity(LivroEntity livroEntity)
+        public async Task<ActionResult<LivroEntity>> PostLivroEntity(LivroAutorAggregateEntity livroAutorAggregateEntity)
         {
             if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
             try
             {
-                await _livroService.InsertAsync(livroEntity);
+                await _livroService.InsertAsync(livroAutorAggregateEntity);
 
-                return Ok(livroEntity);
+                return Ok(livroAutorAggregateEntity);
             }
             catch (EntityValidationException e)
             {
