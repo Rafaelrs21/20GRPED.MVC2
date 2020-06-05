@@ -29,7 +29,6 @@ namespace _20GRPED.MVC2.Data.Repositories
         {
             var livroModel = await _context.Livros.FindAsync(id);
             _context.Livros.Remove(livroModel);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> CheckIsbnAsync(string isbn, int id = 0)
@@ -56,8 +55,7 @@ namespace _20GRPED.MVC2.Data.Repositories
 
         public async Task InsertAsync(LivroEntity insertedEntity)
         {
-            _context.Add(insertedEntity);
-            await _context.SaveChangesAsync();
+            await _context.AddAsync(insertedEntity);
         }
 
         public async Task UpdateAsync(LivroEntity updatedEntity)
@@ -65,7 +63,6 @@ namespace _20GRPED.MVC2.Data.Repositories
             try
             {
                 _context.Update(updatedEntity);
-                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {

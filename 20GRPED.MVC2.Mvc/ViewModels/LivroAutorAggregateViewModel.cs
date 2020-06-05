@@ -32,10 +32,10 @@ namespace _20GRPED.MVC2.Mvc.ViewModels
         [Range(10, 3000, ErrorMessage = "Livro deve ter entre {2} e {1} páginas.")]
         public int Paginas { get; set; }
 
-        public int AutorEntityId { get; set; }
-        public AutorEntity Autor { get; set; }
+        public int? AutorEntityId { get; set; }
+        public AutorEntity? Autor { get; set; }
 
-        public List<SelectListItem> Autores { get; }
+        public List<SelectListItem>? Autores { get; }
 
         [StringLength(20, ErrorMessage = "{0} deve ter entre {2} e {1} caracteres.", MinimumLength = 3)]
         [Display(Name = "Nome do Autor", Prompt = "Entre com o nome do autor", Description = "Nome do Autor neste campo")]
@@ -71,7 +71,7 @@ namespace _20GRPED.MVC2.Mvc.ViewModels
                     Isbn = Isbn,
                     Lancamento = Lancamento,
                     Paginas = Paginas,
-                    AutorEntityId = AutorEntityId
+                    AutorEntityId = AutorEntityId ?? 0
                 }
             };
 
@@ -82,7 +82,7 @@ namespace _20GRPED.MVC2.Mvc.ViewModels
 
             aggregateEntity.AutorEntity = new AutorEntity
             {
-                Nome = NomeAutor, UltimoNome = UltimoNomeAutor, Nascimento = Nascimento.Value, Id = AutorEntityId
+                Nome = NomeAutor, UltimoNome = UltimoNomeAutor, Nascimento = Nascimento.Value, Id = AutorEntityId ?? 0
             };
 
             return aggregateEntity;

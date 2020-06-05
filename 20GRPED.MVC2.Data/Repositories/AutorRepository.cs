@@ -25,7 +25,6 @@ namespace _20GRPED.MVC2.Data.Repositories
         {
             var autorModel = await _context.Autores.FindAsync(id);
             _context.Autores.Remove(autorModel);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<AutorEntity>> GetAllAsync()
@@ -42,8 +41,7 @@ namespace _20GRPED.MVC2.Data.Repositories
 
         public async Task InsertAsync(AutorEntity insertedEntity)
         {
-            _context.Add(insertedEntity);
-            await _context.SaveChangesAsync();
+            await _context.AddAsync(insertedEntity);
         }
 
         public async Task UpdateAsync(AutorEntity updatedEntity)
@@ -51,7 +49,6 @@ namespace _20GRPED.MVC2.Data.Repositories
             try
             {
                 _context.Update(updatedEntity);
-                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {

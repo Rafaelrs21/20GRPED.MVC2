@@ -34,8 +34,6 @@ namespace _20GRPED.MVC2.Mvc
 
             services.RegisterHttpClients(Configuration);
 
-            services.RegisterDataAccess(Configuration);
-
             services.RegisterIdentityForMvc(Configuration);
             services.AddAuthorization(
                 options => options.AddPolicy("Admin", policy => policy.RequireClaim("AdminClaim")));
