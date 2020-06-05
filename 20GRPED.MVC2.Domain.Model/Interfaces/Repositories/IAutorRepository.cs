@@ -1,15 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using _20GRPED.MVC2.Domain.Model.Entities;
+﻿using _20GRPED.MVC2.Domain.Model.Entities;
 
 namespace _20GRPED.MVC2.Domain.Model.Interfaces.Repositories
 {
-    public interface IAutorRepository
+    public interface IAutorRepository : ICrudBaseRepository<AutorEntity>
     {
-        Task<IEnumerable<AutorEntity>> GetAllAsync();
-        Task<AutorEntity> GetByIdAsync(int id);
-        Task InsertAsync(AutorEntity insertedEntity);
-        Task UpdateAsync(AutorEntity updatedEntity);
-        Task DeleteAsync(int id);
     }
 }

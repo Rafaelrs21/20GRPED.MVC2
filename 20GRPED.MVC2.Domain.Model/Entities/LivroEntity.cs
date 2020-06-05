@@ -7,11 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace _20GRPED.MVC2.Domain.Model.Entities 
 { 
     //[Table("livro_entity")]
-    public class LivroEntity
+    public class LivroEntity : BaseEntity
     {
-        //[Column("LivroPk")]
-        public int Id { get; set; }
-
         [Required]
         [StringLength(30, ErrorMessage = "{0} deve ter entre {2} e {1} caracteres.", MinimumLength = 3)]
         public string Nome { get; set; }
