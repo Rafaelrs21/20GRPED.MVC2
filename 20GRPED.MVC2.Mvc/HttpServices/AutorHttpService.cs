@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
@@ -29,7 +30,6 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
             _bibliotecaHttpOptions = bibliotecaHttpOptions ?? throw new ArgumentNullException(nameof(bibliotecaHttpOptions));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
             _signInManager = signInManager;
-            ;
 
             _httpClient = httpClientFactory?.CreateClient(bibliotecaHttpOptions.CurrentValue.Name) ?? throw new ArgumentNullException(nameof(httpClientFactory));
             _httpClient.Timeout = TimeSpan.FromMinutes(_bibliotecaHttpOptions.CurrentValue.Timeout);
@@ -55,15 +55,19 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
             {
                 return null;
             }
-            var httpResponseMessage = await _httpClient.GetAsync(_bibliotecaHttpOptions.CurrentValue.AutorPath);
 
-            if (!httpResponseMessage.IsSuccessStatusCode)
+            try
+            {
+                //exemplo recomendado com a nova API: System.Net.Http.Json
+                var autores = await _httpClient.GetFromJsonAsync<List<AutorEntity>>(_bibliotecaHttpOptions.CurrentValue.AutorPath);
+
+                return autores;
+            }
+            catch (HttpRequestException e) when (e.Message.Contains("401"))
             {
                 await _signInManager.SignOutAsync();
                 return null;
             }
-
-            return JsonConvert.DeserializeObject<List<AutorEntity>>(await httpResponseMessage.Content.ReadAsStringAsync());
         }
 
         public async Task<AutorEntity> GetByIdAsync(int id)
@@ -107,9 +111,8 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
             }
             var uriPath = $"{_bibliotecaHttpOptions.CurrentValue.AutorPath}";
 
-            var httpContent = new StringContent(JsonConvert.SerializeObject(insertedEntity), Encoding.UTF8, "application/json");
-
-            var httpResponseMessage = await _httpClient.PostAsync(uriPath, httpContent);
+            //exemplo recomendado com a nova API: System.Net.Http.Json
+            var httpResponseMessage = await _httpClient.PostAsJsonAsync(uriPath, insertedEntity);
 
             if (!httpResponseMessage.IsSuccessStatusCode)
             {
