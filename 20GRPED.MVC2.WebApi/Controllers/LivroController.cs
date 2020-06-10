@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
+using _20GRPED.MVC2.Domain.Model.Interfaces.UoW;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +16,14 @@ namespace _20GRPED.MVC2.WebApi.Controllers
     public class LivroController : ControllerBase
     {
         private readonly ILivroService _livroService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public LivroController(
-            ILivroService livroService)
+            ILivroService livroService,
+            IUnitOfWork unitOfWork)
         {
             _livroService = livroService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -58,7 +61,9 @@ namespace _20GRPED.MVC2.WebApi.Controllers
 
             try
             {
+                _unitOfWork.BeginTransaction();
                 await _livroService.UpdateAsync(livroEntity);
+                await _unitOfWork.CommitAsync();
                 return Ok();
             }
             catch (EntityValidationException e)
@@ -83,7 +88,16 @@ namespace _20GRPED.MVC2.WebApi.Controllers
 
             try
             {
+                _unitOfWork.BeginTransaction();
+
+                //Exemplo de transaction global do sistema - precisa do AsyncFlowOption se estivermos usando async!
+                //using var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
                 await _livroService.InsertAsync(livroAutorAggregateEntity);
+
+                //Esse Complete() seria o Commit, o rollback é se sair do escopo sem chamar o Complete()
+                //transactionScope.Complete();
+                await _unitOfWork.CommitAsync();
 
                 return Ok(livroAutorAggregateEntity);
             }
@@ -108,8 +122,9 @@ namespace _20GRPED.MVC2.WebApi.Controllers
             {
                 return NotFound();
             }
-
-            await _livroService.DeleteAsync(id);
+            _unitOfWork.BeginTransaction();
+            await _livroService.DeleteAsync(id); 
+            await _unitOfWork.CommitAsync();
 
             return Ok(livroEntity);
         }

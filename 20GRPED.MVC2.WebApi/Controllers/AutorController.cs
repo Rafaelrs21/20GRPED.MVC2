@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
+using _20GRPED.MVC2.Domain.Model.Interfaces.UoW;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +16,14 @@ namespace _20GRPED.MVC2.WebApi.Controllers
     public class AutorController : ControllerBase
     {
         private readonly IAutorService _autorService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public AutorController(
-            IAutorService autorService)
+            IAutorService autorService,
+            IUnitOfWork unitOfWork)
         {
             _autorService = autorService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -58,7 +61,9 @@ namespace _20GRPED.MVC2.WebApi.Controllers
 
             try
             {
+                _unitOfWork.BeginTransaction();
                 await _autorService.UpdateAsync(autorEntity);
+                await _unitOfWork.CommitAsync();
             }
             catch (RepositoryException e)
             {
@@ -75,12 +80,11 @@ namespace _20GRPED.MVC2.WebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            _unitOfWork.BeginTransaction();
             await _autorService.InsertAsync(autorEntity);
+            await _unitOfWork.CommitAsync();
 
             return Ok(autorEntity);
-            //return CreatedAtAction(
-            //    "GetAutorEntity",
-            //    new { id = autorEntity.Id }, autorEntity);
         }
 
         // DELETE: api/Autor/5
@@ -98,7 +102,9 @@ namespace _20GRPED.MVC2.WebApi.Controllers
                 return NotFound();
             }
 
+            _unitOfWork.BeginTransaction();
             await _autorService.DeleteAsync(id);
+            await _unitOfWork.CommitAsync();
 
             return Ok(autorEntity);
         }

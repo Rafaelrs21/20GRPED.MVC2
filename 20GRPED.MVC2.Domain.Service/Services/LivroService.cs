@@ -14,23 +14,18 @@ namespace _20GRPED.MVC2.Domain.Service.Services
     {
         private readonly ILivroRepository _livroRepository;
         private readonly IAutorService _autorService;
-        private readonly IUnitOfWork _unitOfWork;
 
         public LivroService(
             ILivroRepository livroRepository,
-            IAutorService autorService,
-            IUnitOfWork unitOfWork)
+            IAutorService autorService)
         {
             _livroRepository = livroRepository;
             _autorService = autorService;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task DeleteAsync(int id)
         {
-            _unitOfWork.BeginTransaction();
             await _livroRepository.DeleteAsync(id);
-            await _unitOfWork.CommitAsync();
         }
 
         public async Task<IEnumerable<LivroEntity>> GetAllAsync()
@@ -51,8 +46,6 @@ namespace _20GRPED.MVC2.Domain.Service.Services
                 throw new EntityValidationException(nameof(LivroEntity.Isbn), $"ISBN {livroAutorAggregateEntity.LivroEntity.Isbn} já existe!");
             }
 
-            _unitOfWork.BeginTransaction();
-
             if (!(livroAutorAggregateEntity.AutorEntity is null) &&
                 !string.IsNullOrWhiteSpace(livroAutorAggregateEntity.AutorEntity.Nome) &&
                 !string.IsNullOrWhiteSpace(livroAutorAggregateEntity.AutorEntity.UltimoNome))
@@ -62,8 +55,6 @@ namespace _20GRPED.MVC2.Domain.Service.Services
 
             livroAutorAggregateEntity.LivroEntity.Autor = livroAutorAggregateEntity.AutorEntity;
             await _livroRepository.InsertAsync(livroAutorAggregateEntity.LivroEntity);
-
-            await _unitOfWork.CommitAsync();
         }
 
         public async Task UpdateAsync(LivroEntity updatedEntity)
@@ -74,9 +65,7 @@ namespace _20GRPED.MVC2.Domain.Service.Services
                 throw new EntityValidationException(nameof(LivroEntity.Isbn), $"ISBN {updatedEntity.Isbn} já existe em outro livro!");
             }
 
-            _unitOfWork.BeginTransaction();
             await _livroRepository.UpdateAsync(updatedEntity);
-            await _unitOfWork.CommitAsync();
         }
 
         public async Task<bool> CheckIsbnAsync(string isbn, int id)

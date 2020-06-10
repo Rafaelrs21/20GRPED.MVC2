@@ -42,6 +42,9 @@ namespace _20GRPED.MVC2.Data.Repositories
         public async Task InsertAsync(AutorEntity insertedEntity)
         {
             await _context.AddAsync(insertedEntity);
+            
+            //usado para testar o transaction
+            //await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(AutorEntity updatedEntity)
