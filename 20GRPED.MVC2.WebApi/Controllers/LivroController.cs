@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
+using _20GRPED.MVC2.Domain.Model.Interfaces.UoW;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,77 +11,28 @@ namespace _20GRPED.MVC2.WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class LivroController : ControllerBase
+    public class LivroController : CrudBaseController<ILivroService, LivroEntity>
     {
         private readonly ILivroService _livroService;
 
         public LivroController(
-            ILivroService livroService)
+            ILivroService livroService,
+            IUnitOfWork unitOfWork) : base(livroService, unitOfWork)
         {
             _livroService = livroService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<LivroEntity>>> GetLivroEntity()
-        {
-            var livros = await _livroService.GetAllAsync();
-            return Ok(livros.ToList());
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<LivroEntity>> GetLivroEntity(int id)
-        {
-            if (id <= 0)
-            {
-                return NotFound();
-            }
-
-            var livroEntity = await _livroService.GetByIdAsync(id);
-
-            if (livroEntity == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(livroEntity);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutLivroEntity(int id, LivroEntity livroEntity)
-        {
-            if (id != livroEntity.Id)
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                await _livroService.UpdateAsync(livroEntity);
-                return Ok();
-            }
-            catch (EntityValidationException e)
-            {
-                ModelState.AddModelError(e.PropertyName, e.Message);
-                return BadRequest(ModelState);
-            }
-            catch (RepositoryException e)
-            {
-                ModelState.AddModelError(string.Empty, e.Message);
-                return BadRequest(ModelState);
-            }
-
-            return NoContent();
-        }
-
         [HttpPost]
-        public async Task<ActionResult<LivroEntity>> PostLivroEntity(LivroAutorAggregateEntity livroAutorAggregateEntity)
+        public async Task<ActionResult<LivroEntity>> Post(LivroAutorAggregateEntity livroAutorAggregateEntity)
         {
             if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
             try
             {
+                UnitOfWork.BeginTransaction();
                 await _livroService.InsertAsync(livroAutorAggregateEntity);
+                await UnitOfWork.CommitAsync();
 
                 return Ok(livroAutorAggregateEntity);
             }
@@ -92,26 +41,6 @@ namespace _20GRPED.MVC2.WebApi.Controllers
                 ModelState.AddModelError(e.PropertyName, e.Message);
                 return BadRequest(ModelState);
             }
-        }
-
-        // DELETE: api/Livro/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<LivroEntity>> DeleteLivroEntity(int id)
-        {
-            if (id <= 0)
-            {
-                return NotFound();
-            }
-
-            var livroEntity = await _livroService.GetByIdAsync(id);
-            if (livroEntity == null)
-            {
-                return NotFound();
-            }
-
-            await _livroService.DeleteAsync(id);
-
-            return Ok(livroEntity);
         }
 
         [HttpGet("CheckIsbn/{isbn}/{id}")]

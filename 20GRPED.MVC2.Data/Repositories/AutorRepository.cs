@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _20GRPED.MVC2.Data.Repositories
 {
-    public class AutorRepository : BaseRepository<AutorEntity>, IAutorRepository
+    public class AutorRepository : CrudBaseRepository<AutorEntity>, IAutorRepository
     {
         public AutorRepository(
             BibliotecaContext bibliotecaContext) : base(bibliotecaContext)

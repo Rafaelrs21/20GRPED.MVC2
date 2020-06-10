@@ -6,6 +6,5 @@ namespace _20GRPED.MVC2.Domain.Model.Interfaces.Repositories
     public interface ILivroRepository : ICrudBaseRepository<LivroEntity>
     {
         Task<bool> CheckIsbnAsync(string isbn, int id = -1);
-        Task<LivroEntity> GetByIsbnAsync(string isbn);
     }
 }

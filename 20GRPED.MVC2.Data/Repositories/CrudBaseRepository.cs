@@ -3,16 +3,17 @@ using System.Threading.Tasks;
 using _20GRPED.MVC2.Data.Context;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
+using _20GRPED.MVC2.Domain.Model.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace _20GRPED.MVC2.Data.Repositories
 {
-    public class BaseRepository<TEntity> where TEntity : BaseEntity
+    public abstract class CrudBaseRepository<TEntity> : ICrudBaseRepository<TEntity> where TEntity : BaseEntity
     {
         protected readonly BibliotecaContext BibliotecaContext;
         protected readonly DbSet<TEntity> DbSet;
 
-        public BaseRepository(
+        protected CrudBaseRepository(
             BibliotecaContext bibliotecaContext)
         {
             BibliotecaContext = bibliotecaContext;

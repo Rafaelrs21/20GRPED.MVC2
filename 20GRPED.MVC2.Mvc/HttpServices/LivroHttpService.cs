@@ -103,6 +103,11 @@ namespace _20GRPED.MVC2.Mvc.HttpServices
             return null;
         }
 
+        public async Task InsertAsync(LivroEntity insertedEntity)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task InsertAsync(LivroAutorAggregateEntity livroAutorAggregateEntity)
         {
             var jwtSuccess = await AddAuthJwtToRequest();

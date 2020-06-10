@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _20GRPED.MVC2.Data.Repositories
 {
-    public class LivroRepository : BaseRepository<LivroEntity>, ILivroRepository
+    public class LivroRepository : CrudBaseRepository<LivroEntity>, ILivroRepository
     {
         public LivroRepository(
             BibliotecaContext bibliotecaContext) : base(bibliotecaContext)
@@ -18,11 +18,6 @@ namespace _20GRPED.MVC2.Data.Repositories
             var isbnExists = await DbSet.AnyAsync(x => x.Isbn == isbn && x.Id != id);
 
             return isbnExists;
-        }
-
-        public async Task<LivroEntity> GetByIsbnAsync(string isbn)
-        {
-            return await DbSet.SingleOrDefaultAsync(x => x.Isbn == isbn);
         }
     }
 }
