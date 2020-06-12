@@ -1,10 +1,6 @@
-﻿using System;
-using _20GRPED.MVC2.Crosscutting.Identity;
-using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
-using _20GRPED.MVC2.Domain.Model.Options;
+﻿using _20GRPED.MVC2.Crosscutting.Identity;
 using _20GRPED.MVC2.InversionOfControl;
 using _20GRPED.MVC2.Mvc.Extensions;
-using _20GRPED.MVC2.Mvc.HttpServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -32,7 +28,7 @@ namespace _20GRPED.MVC2.Mvc
 
             services.RegisterConfigurations(Configuration);
 
-            services.RegisterHttpClients(Configuration);
+            services.RegisterInjections(Configuration);
 
             services.RegisterIdentityForMvc(Configuration);
             services.AddAuthorization(

@@ -52,7 +52,7 @@ namespace _20GRPED.MVC2.Data.Repositories
             {
                 if (await GetByIdAsync(updatedEntity.Id) == null)
                 {
-                    throw new RepositoryException("Livro não encontrado!");
+                    throw new RepositoryException($"{nameof(TEntity)} não encontrado!");
                 }
                 else
                 {

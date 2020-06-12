@@ -1,10 +1,11 @@
-﻿using _20GRPED.MVC2.Data.Context;
+﻿using _20GRPED.MVC2.Application.AppServices;
+using _20GRPED.MVC2.Application.AppServices.Implementations;
+using _20GRPED.MVC2.Data.Context;
 using _20GRPED.MVC2.Data.Repositories;
 using _20GRPED.MVC2.Data.UoW;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Repositories;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
 using _20GRPED.MVC2.Domain.Model.Interfaces.UoW;
-using _20GRPED.MVC2.Domain.Model.Options;
 using _20GRPED.MVC2.Domain.Service.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,9 +24,13 @@ namespace _20GRPED.MVC2.InversionOfControl
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddScoped<ILivroAppService, LivroAppService>();
+            services.AddScoped<IAutorAppService, AutorAppService>();
+
             services.AddScoped<ILivroService, LivroService>();
-            services.AddScoped<ILivroRepository, LivroRepository>();
             services.AddScoped<IAutorService, AutorService>();
+
+            services.AddScoped<ILivroRepository, LivroRepository>();
             services.AddScoped<IAutorRepository, AutorRepository>();
         }
     }

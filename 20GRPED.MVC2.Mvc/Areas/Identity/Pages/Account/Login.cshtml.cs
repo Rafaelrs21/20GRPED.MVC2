@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using _20GRPED.MVC2.Crosscutting.Identity.RequestModels;
-using _20GRPED.MVC2.Mvc.HttpServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,21 +18,13 @@ namespace _20GRPED.MVC2.Mvc.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IAuthHttpService _authHttpService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager,
-            ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager,
-            IAuthHttpService authHttpService,
-            IHttpContextAccessor httpContextAccessor)
+        public LoginModel(
+            SignInManager<IdentityUser> signInManager,
+            ILogger<LoginModel> logger)
         {
-            _userManager = userManager;
-            _authHttpService = authHttpService;
-            _httpContextAccessor = httpContextAccessor;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -89,8 +80,6 @@ namespace _20GRPED.MVC2.Mvc.Areas.Identity.Pages.Account
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
-                result = await GetTokenAndSaveOnCookie(new LoginRequest { User = Input.Email, Password = Input.Password }, result);
-
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -115,29 +104,6 @@ namespace _20GRPED.MVC2.Mvc.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
-        }
-
-        private async Task<SignInResult> GetTokenAndSaveOnCookie(LoginRequest loginRequest, SignInResult signInResult)
-        {
-            var token = await _authHttpService.GetTokenAsync(loginRequest);
-
-            if (token is null)
-            {
-                return SignInResult.Failed;
-            }
-
-            var options = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                MaxAge = TimeSpan.FromMinutes(10)
-            };
-
-            _httpContextAccessor.HttpContext.Response.Cookies.Delete("bibliotecaToken");
-            _httpContextAccessor.HttpContext.Response.Cookies.Append("bibliotecaToken", token, options);
-
-            return signInResult;
         }
     }
 }

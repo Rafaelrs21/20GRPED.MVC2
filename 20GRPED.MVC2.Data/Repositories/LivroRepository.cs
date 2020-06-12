@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using _20GRPED.MVC2.Data.Context;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Interfaces.Repositories;

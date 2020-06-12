@@ -38,6 +38,16 @@ namespace _20GRPED.MVC2.Domain.Service.Services
             await InsertAsync(livroAutorAggregateEntity.LivroEntity);
         }
 
+        public override async Task InsertAsync(LivroEntity insertedEntity)
+        {
+            var isbnExists = await _livroRepository.CheckIsbnAsync(insertedEntity.Isbn);
+            if (isbnExists)
+            {
+                throw new EntityValidationException(nameof(LivroEntity.Isbn), $"ISBN {insertedEntity.Isbn} já existe!");
+            }
+            await base.InsertAsync(insertedEntity);
+        }
+
         public override async Task UpdateAsync(LivroEntity updatedEntity)
         {
             var isbnExists = await _livroRepository.CheckIsbnAsync(updatedEntity.Isbn, updatedEntity.Id);

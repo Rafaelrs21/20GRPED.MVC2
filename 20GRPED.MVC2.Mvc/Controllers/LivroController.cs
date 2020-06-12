@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
+using _20GRPED.MVC2.Application.AppServices;
 using _20GRPED.MVC2.Domain.Model.Entities;
 using _20GRPED.MVC2.Domain.Model.Exceptions;
-using _20GRPED.MVC2.Domain.Model.Interfaces.Services;
-using _20GRPED.MVC2.Mvc.HttpServices;
 using _20GRPED.MVC2.Mvc.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,51 +10,23 @@ using Microsoft.EntityFrameworkCore;
 namespace _20GRPED.MVC2.Mvc.Controllers
 {
     [Authorize]
-    public class LivroController : Controller
+    public class LivroController : CrudBaseController<ILivroAppService, LivroEntity>
     {
-        private readonly ILivroService _livroService;
-        private readonly IAutorHttpService _autorService;
+        private readonly ILivroAppService _livroAppService;
+        private readonly IAutorAppService _autorAppService;
 
         public LivroController(
-            ILivroService livroService,
-            IAutorHttpService autorService)
+            ILivroAppService livroAppService,
+            IAutorAppService autorAppService) : base(livroAppService)
         {
-            _livroService = livroService;
-            _autorService = autorService;
-        }
-
-        // GET: Livro
-        public async Task<IActionResult> Index()
-        {
-            var livros = await _livroService.GetAllAsync();
-
-            if(livros == null)
-                return Redirect("/Identity/Account/Login");
-
-            return View(livros);
-        }
-
-        // GET: Livro/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var livroModel = await _livroService.GetByIdAsync(id.Value);
-            if (livroModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(livroModel);
+            _livroAppService = livroAppService;
+            _autorAppService = autorAppService;
         }
 
         // GET: Livro/Create
-        public async Task<IActionResult> Create()
+        public override async Task<IActionResult> Create()
         {
-            var livroViewModel = new LivroAutorAggregateViewModel(await _autorService.GetAllAsync());
+            var livroViewModel = new LivroAutorAggregateViewModel(await _autorAppService.GetAllAsync());
 
             return View(livroViewModel);
         }
@@ -63,7 +34,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         // POST: Livro/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("CreateAggregate")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LivroAutorAggregateViewModel livroAutorViewModel)
         {
@@ -73,7 +44,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
                 {
                     var livroAutorAggregateEntity = livroAutorViewModel.ToAggregateEntity();
 
-                    await _livroService.InsertAsync(livroAutorAggregateEntity);
+                    await _livroAppService.InsertAsync(livroAutorAggregateEntity);
                     return RedirectToAction(nameof(Index));
                 }
                 catch (EntityValidationException e)
@@ -85,20 +56,20 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         }
 
         // GET: Livro/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public override async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var livroModel = await _livroService.GetByIdAsync(id.Value);
+            var livroModel = await _livroAppService.GetByIdAsync(id.Value);
             if (livroModel == null)
             {
                 return NotFound();
             }
 
-            var livroViewModel = new LivroViewModel(livroModel, await _autorService.GetAllAsync());
+            var livroViewModel = new LivroViewModel(livroModel, await _autorAppService.GetAllAsync());
 
             return View(livroViewModel);
         }
@@ -108,7 +79,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, LivroEntity livroEntity)
+        public override async Task<IActionResult> Edit(int id, LivroEntity livroEntity)
         {
             if (id != livroEntity.Id)
             {
@@ -119,7 +90,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
             {
                 try
                 {
-                    await _livroService.UpdateAsync(livroEntity);
+                    await _livroAppService.UpdateAsync(livroEntity);
                 }
                 catch (EntityValidationException e)
                 {
@@ -128,7 +99,7 @@ namespace _20GRPED.MVC2.Mvc.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (await _livroService.GetByIdAsync(id) == null)
+                    if (await _livroAppService.GetByIdAsync(id) == null)
                     {
                         return NotFound();
                     }
@@ -142,36 +113,10 @@ namespace _20GRPED.MVC2.Mvc.Controllers
             return View(new LivroViewModel(livroEntity));
         }
 
-        // GET: Livro/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var livroModel = await _livroService.GetByIdAsync(id.Value);
-            if (livroModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(livroModel);
-        }
-
-        // POST: Livro/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            await _livroService.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
-        }
-
         [AcceptVerbs("GET", "POST")]
         public async Task<IActionResult> CheckIsbn(string isbn, int id)
         {
-            if (await _livroService.CheckIsbnAsync(isbn, id))
+            if (await _livroAppService.CheckIsbnAsync(isbn, id))
             {
                 return Json($"ISBN {isbn} já existe!");
             }

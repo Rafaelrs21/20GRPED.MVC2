@@ -1,110 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-    <h1>@ViewBag.CookieTest</h1>
-    <h1>BibliotecaToken: [@ViewBag.BibliotecaToken]</h1>
-<div class="col-md-6">
-        <h1>A03 Validacoes</h1>
 
-        <p>Validações  - principal referência: <a href="https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-3.1">docs.microsoft/aspnet/core/mvc/models/validation</a>.</p>
-        <p>Validações  - extra: <a href="https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/validation?view=aspnetcore-3.1">docs.microsoft/aspnet/core/tutorials/first-mvc-app/validation</a>.</p>
-
-        <h2 class="display-4">Exemplos terminados em aula (só ficaram até o final esses que fizeram):</h2>
-        <p>Leandro</p>
-        <p>Rodrigo Araujo</p>
-        <p>Guilherme Saraiva</p>
-    </div>
-
-<div class="col-md-6">
-    <h1>A02 CRUD Em Camadas</h1>
-
-    <img src="images/DiagramaEmCamadasRabiscado.png" alt="Diagrama em camadas rabiscado" />
-
-    <h2 class="display-4">Etapas:</h2>
-    <p>Considerando que o presentation já está criado, seguem as instruções a seguir.</p>
-    <p>Criar Solution Folders: 01 - Presentation, 02 - Domain, 03 - Infrastructure, 04 - Crosscutting</p>
-    <ul>
-        <li>01 - Presentation</li>
-        <li>02 - Domain</li>
-        <li>03 - Infrastructure</li>
-        <li>04 - Crosscutting</li>
-    </ul>
-    <p>Criar projetos:</p>
-    <ul>
-        <li>Domain.Model (02 - Domain)</li>
-        <li>Domain.Service (02 - Domain)</li>
-        <li>Data (03 - Infrastructure)</li>
-        <li>InversionOfControl (04 - Crosscutting)</li>
-    </ul>
-    <p>Criar pastas e classes:</p>
-    <ul>
-        <li>Domain.Model.Interfaces.Repositores.I[Entidade]Repository.cs</li>
-        <li>Domain.Model.Interfaces.Services.I[Entidade]Service.cs</li>
-        <li>Domain.Model.Entities.[Entidade].cs (ou [Entidade]Entity.cs)</li>
-        <li>Domain.Service.Services.[Entidade]Service.cs</li>
-        <li>Domain.Data.Repositories.[Entidade]Repository.cs</li>
-        <li>Domain.Data.Context.[Name]Context.cs</li>
-        <li>InversionOfControl.DependencyInjection.cs (como static, apenas com o método Register)</li>
-    </ul>
-    <h3>DbContext</h3>
-    <p>O [Name]Context implementa o DbContext que precisa do nuget Microsoft.EntityFrameworkCore</p>
-    <p>A convenção de nomenclatura da propriedade do DbSet é o nome da entidade no plural em UpperCamelCase</p>
-    <p>Recomendo a leitura dos links:</p>
-    <ul>
-        <li><a href="https://www.entityframeworktutorial.net/efcore/entity-framework-core-dbcontext.aspx">entityframeworktutorial entity-framework-core-dbcontext</a></li>
-        <li><a href="https://docs.microsoft.com/en-us/ef/core/miscellaneous/configuring-dbcontext">docs.microsoft configuring-dbcontext</a></li>
-    </ul>
-    <h3>Refatorações</h3>
-    <p>Ao reutilizar o projeto pronto, será necessário mover o Model e o DbContext criado para as respectivas pastas</p>
-    <p>Esta maneira acrescenta um pouco de trabalho para consertar todos os using e referências entre projetos.</p>
-    <h3>Services, Repositories e Controllers</h3>
-    <p> Definir as interfaces de Services e Repositories</p>
-    <p> Implementar os métodos nas suas respectivas classes</p>
-    <p> Refatorar o controller para depender apenas do Service</p>
-    <p> Consertar Registros de Injeção de dependência (DI) do I[Entity]Service para o Service e I[Entity]Repository para [Entity]Repository</p>
-    <h3>Crosscutting</h3>
-    <p>Passar os registros de DI para a classe DependencyInjection, conforme no exemplo</p>
-    <p>Remover registros do Startup.cs no Mvc</p>
-    <p>Remover do Mvc os Dependencies/Projects do projeto Data e do Domain.Service</p>
-    <h3>Migrations</h3>
-    <p>Não esquecer do Add-Migration [name] nem do update-database</p>
-    <p>No exemplo de aula, o banco antigo foi removido, a pasta de migrations antiga tbm</p>
-</div>
-
-<div class="col-md-6">
-    <h1>A01 CRUD Simples</h1>
-    <h2 class="display-4">Etapas:</h2>
-    <p>Criar Modelo</p>
-    <ul>
-        <li>Criar Modelo</li>
-        <li>Add Controller</li>
-        <li>MVC Controller with views, using Entity Framework</li>
-        <li>Escolher Model class</li>
-        <li>Botão de + no Data context class</li>
-        <li>Consertar Controller name</li>
-        <li>Add!</li>
-        <li>Abrir Package Manager Console</li>
-        <li>add-migration name</li>
-        <li>update-database</li>
-    </ul>
-
-    <h2 class="display-4">Exemplos terminados em aula:</h2>
-    <p>Rodrigo Araujo</p>
-    <p>Samuel Belo</p>
-    <p>Roberto Braga</p>
-    <p>Guilherme Nascimento</p>
-    <p>Venícius Setubal</p>
-    <p>Wander Campelo</p>
-    <p>Leandro</p>
-
-    <h2 class="display-4">Não conseguiu terminar a tempo:</h2>
-    <p>Guilherme Saraiva</p>
-    <p>Rafael Reis</p>
-
-    <h2 class="display-4">Avisou que não conseguiu fazer:</h2>
-    <p>Guilherme Nigri - sem computador</p>
-    <p>Mariana - saiu mais cedo, problema de internet</p>
-</div>
+<h2>Arquitetura em camadas customizada</h2>
+<img src="images/ArquiteturaEmCamadasDesenhada.png" alt="Diagrama em camadas desenhado" />
+<h2>Arquitetura em camadas padrão</h2>
+<img src="images/DiagramaDeClasseArquitetura.png" alt="Diagrama em camadas padrão" />
 
 <div class="col-md-6">
     <h2 class="display-4">Referências</h2>
